@@ -6,6 +6,6 @@ app.config['DEBUG'] = True   # display runtime errors in the browser
 
 @app.route('/')
 def base():
-    return render_template("login.html")
+    return render_template("signup.html")
 
 app.run()
