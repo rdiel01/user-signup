@@ -7,6 +7,10 @@ app.config["DEBUG"] = True   # display runtime errors in the browser
 username = ""
 password = ""
 email = ""
+invalid=[' ','/','\\','\'','"','@']
+username_error = False
+password_error = False
+email_error = False
 
 @app.route("/", methods=["GET"])
 def base():
@@ -14,10 +18,16 @@ def base():
 
 @app.route("/verification", methods=["POST"])
 def verification():
-    username = request.form['typed_username']
+    if ' ' is in request.form['typed_username'] and (len(request.form['typed_username']) >= 3 and len(request.form['typed_username']) <= 20:
+        username_error = True
+    else:
+        username_error = False
+        username = request.form['typed_username']
+
     password = request.form['typed_password']
     email = request.form['typed_email']
-    pass
+    if not username_error and not password_error and not email_error:
+        return render_template("welcome.html",html_username=username)
 
 
 app.run()
