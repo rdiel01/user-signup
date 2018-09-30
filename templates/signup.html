@@ -5,12 +5,24 @@
     <form action="/verification" method='POST'>
         <label>Username</label>
             <input type='text' name="typed_username" value={{html_username}}><br>
+{% if html_username_error %}
+            <p class='error'>Username must be 3-20 characters long with no spaces.</p>
+{% endif %}
         <label>Password</label>
             <input type='password' name="typed_password"><br>
+{% if html_password_error %}
+            <p class='error'>Password must be 3-20 characters long with no spaces.</p>
+{% endif %}
         <label>Verify Password</label>
-            <input type='password' name="verify-password"><br>
+            <input type='password' name="verify_password"><br>
+{% if html_password_verification_error %}
+            <p class='error'>Passwords do not match.</p>
+{% endif %}
         <label>Email (optional)</label>
             <input type='text' name="typed_email" value={{html_email}}><br>
+{% if html_email_error %}
+            <p class='error'>That is not a valid email.</p>
+{% endif %}
             <input type='submit' value='Submit Query'>
     </form>
 {% endblock %}
