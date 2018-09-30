@@ -10,12 +10,12 @@ def error(string):
     ```
     string, a string
     """
-    if ' ' in string and (len(string) > 3 and len(string) < 20):
-        return True
-    else:
+    if ' ' not in string and ((len(string) > 3 or len(string) < 20)):
         return False
+    else:
+        return True
 
-def password_verification(pass_1,pass_2):
+def invalid_password(pass_1,pass_2):
     """
     checks if password value matches verify password value
     ```
@@ -25,9 +25,9 @@ def password_verification(pass_1,pass_2):
     if pass_1 == pass_2:
         return error(pass_1)
     else:
-        return False
+        return True
 
-def verify_email(email):
+def invalid_email(email):
     """
     checks if email is a string with a single @ and a single .(dot)
     ```
@@ -58,23 +58,29 @@ def verification():
     password_error = False
     email_error = False
 
+#check username
     if not error(request.form['typed_username']):
         username = request.form['typed_username']
     else:
         username_error = True
 
-    if not password_verification(request.form['typed_password'],request.form['verify_password']):
+#check passwords
+    if not invalid_password(request.form['typed_password'],request.form['verify_password']):
         password = request.form['typed_password']
+    else:
+        password_error = True
 
+#check email
     if request.form['typed_email']:
-        email_error = verify_email(request.form['typed_email'])
-        if not email_error:
+        if not invalid_email(request.form['typed_email']):
           email = request.form['typed_email']
+        else:
+            email_error = True
 
     if not username_error and not password_error and not email_error:
         return render_template("welcome.html",html_username=username)
     else:
-        return render_template("signup.html",html_username=username,html_email=email,html_username_error=username_error,html_password_error=password_error,html_password_verification_error=password_verification(request.form['typed_password'],request.form['verify_password']),html_email_error=email_error)
+        return render_template("signup.html",html_username=username,html_email=email,html_username_error=username_error,html_password_error=password_error,html_password_verification_error=invalid_password(request.form['typed_password'],request.form['verify_password']),html_email_error=email_error)
 
 
 app.run()
