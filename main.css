@@ -1,0 +1,8 @@
+p.inline{
+    display:inline;
+}
+
+p.error{
+    font-family:sans-serif;
+    color:red;
+}
