@@ -33,7 +33,7 @@ def invalid_email(email):
     ```
     email, a string
     """
-    if email.count('@') == 1 and email.count('.') == 1:
+    if email.count('@') == 1 and email.count('.') == 1 and not error(email):
         return False
     else:
         return True
