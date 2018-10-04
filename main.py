@@ -22,10 +22,10 @@ def password_compare(pass_1,pass_2):
     pass_1, a string
     pass_2, a string
     """
-    if pass_1 == pass_2:
-        return False
-    else:
+    if pass_1 != pass_2:
         return True
+    else:
+        return False
 
 def invalid_email(email):
     """
@@ -33,7 +33,7 @@ def invalid_email(email):
     ```
     email, a string
     """
-    if '@' in email and '.' in email:
+    if email.count('@') == 1 and email.count('.') == 1:
         return False
     else:
         return True
@@ -64,15 +64,16 @@ def verification():
         username = request.form['typed_username']
 
 #check passwords
-    if not password_error and matching_passwords:
+    if not password_error and not matching_passwords:
         password=request.form['typed_password']
 
 #check email
-    if request.form['typed_email']:
-        if not email_error:
+    if not request.form['typed_email']:
+        email_error=''
+    elif not email_error:
           email = request.form['typed_email']
 
-    if not username_error and not password_error and not email_error:
+    if not username_error and not password_error and not email_error and not matching_passwords:
         return render_template("welcome.html",html_username=username)
     else:
         return render_template("signup.html",html_username=username,html_email=email,html_username_error=username_error,html_password_error=password_error,html_password_verification_error=matching_passwords,html_email_error=email_error)
